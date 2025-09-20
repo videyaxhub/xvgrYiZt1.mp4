@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>xxxx</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0;}
+    body {
+      min-height: 100vh;
+      width: 100vw;
+      font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(120deg, #e50914 0%, #232526 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+    }
+    .card {
+      background: rgba(255,255,255,0.13);
+      box-shadow: 0 8px 32px 0 rgba(60,60,60,0.24);
+      backdrop-filter: blur(7.5px);
+      border-radius: 22px;
+      padding: 2rem 1.6rem 1.8rem 1.6rem;
+      max-width: 410px;
+      width: 100%;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.20);
+      position: relative;
+      transition: transform 0.25s, box-shadow 0.25s;
+      animation: fadeInCard .7s cubic-bezier(.4,.2,.2,1);
+      display: grid;
+      grid-template-rows: auto auto auto auto auto 60px;
+      grid-row-gap: 1.1rem;
+      min-height: 540px;
+    }
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 16px 48px 0 #e5091420;
+    }
+    @keyframes fadeInCard {
+      from { opacity: 0; transform: translateY(40px);}
+      to   { opacity: 1; transform: translateY(0);}
+    }
+    .thumb-container {
+      position: relative;
+      margin: 0 auto 1.2rem auto;
+      width: 100%;
+      max-width: 350px;
+      grid-row: 1;
+    }
+    .review-img {
+      width: 100%;
+      height: 255px;
+      object-fit: cover;
+      border-radius: 17px;
+      border: 2px solid #fff;
+      box-shadow: 0 8px 40px #e5091420, 0 1px 8px #23252666;
+      background: #eee;
+      opacity: 0.96;
+      transition: box-shadow 0.23s, opacity 0.2s;
+      filter: brightness(0.94);
+    }
+    .thumb-container:hover .review-img {
+      opacity: 1;
+      filter: brightness(1.07);
+      box-shadow: 0 16px 52px #e5091470, 0 2px 12px #23252699;
+    }
+    h1 {
+      font-size: 1.32rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 1px;
+      margin: 0.7rem 0 0.8rem 0;
+      text-shadow: 0 2px 8px #e5091440;
+      grid-row: 2;
+    }
+    .desc {
+      color: #eee;
+      font-size: 1em;
+      margin-bottom: 1rem;
+      line-height: 1.3;
+      opacity: 0.89;
+      grid-row: 3;
+    }
+    .stars {
+      margin-bottom: 1.1rem;
+      grid-row: 4;
+    }
+    .stars svg {
+      width: 20px;
+      height: 20px;
+      margin: 2px;
+      vertical-align: middle;
+    }
+    .open-link {
+      background: linear-gradient(90deg,#232526 60%,#e50914 140%);
+      color: #fff;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1.05em;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+      box-shadow: 0 1px 8px #e5091420;
+      letter-spacing: 0.5px;
+      border: 1px solid #e5091440;
+      transition: background 0.3s, box-shadow 0.2s;
+      cursor: pointer;
+      grid-row: 5;
+    }
+    .open-link:hover {
+      background: linear-gradient(90deg,#e50914 80%,#232526 180%);
+      box-shadow: 0 4px 16px #e50914a0;
+      color: #fff;
+      transform: scale(1.04);
+    }
+    /* Ads below Watch Video */
+    .ad-below-watch {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      grid-row: 6;
+      min-height: 60px;
+      padding-top: 6px;
+    }
+
+    /* Modal Video */
+    .video-modal {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(30,30,30,0.98);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      flex-direction: column;
+      animation: fadeInCard .5s;
+      backdrop-filter: blur(4px);
+    }
+    .video-modal-content {
+      background: rgba(40,40,40,0.98);
+      border-radius: 21px;
+      box-shadow: 0 8px 32px #e5091440;
+      padding: 34px 22px 18px 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 98vw;
+      width: 98vw;
+      position: relative;
+      min-height: 420px;
+    }
+    .close-btn {
+      position: absolute;
+      top: 16px; right: 24px;
+      background: #fff;
+      color: #e50914;
+      border: none;
+      border-radius: 50px;
+      padding: 7px 24px;
+      font-weight: 700;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+      box-shadow: 0 2px 12px #e5091440;
+      z-index: 2;
+    }
+    .close-btn:hover {
+      background: #e50914;
+      color: #fff;
+    }
+    /* Ads below close button */
+    .ad-modal {
+      width: 100%;
+      margin: 44px 0 12px 0;
+      display: flex;
+      justify-content: center;
+      min-height: 56px;
+      z-index: 1;
+    }
+    .video-player {
+      width: 700px;
+      max-width: 98vw;
+      height: 400px;
+      max-height: 55vw;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px #e5091440;
+      margin-bottom: 8px;
+      background: #111;
+      outline: none;
+    }
+    @media (max-width: 700px) {
+      .video-player {
+        width: 98vw;
+        height: 56vw;
+        max-height: 62vw;
+      }
+      .video-modal-content {
+        width: 100vw;
+        padding: 16px 0 14px 0;
+        min-height: 270px;
+      }
+      .ad-modal { margin-top: 30px; }
+    }
+    @media (max-width: 500px) {
+      body { padding: 2vw;}
+      .card { padding: 1rem; max-width: 97vw; min-height: 400px;}
+      .review-img { height: 120px; }
+      h1 { font-size: 1.08rem;}
+      .video-modal-content { min-height: 220px;}
+      .close-btn { top: 10px; right: 12px; padding: 6px 12px; font-size: .95em;}
+      .ad-modal { margin-top: 22px;}
+      .video-player {
+        width: 100vw;
+        max-width: 100vw;
+        height: 62vw;
+        max-height: 65vw;
+        border-radius: 0;
+      }
+    }
+    /* Landscape mode on phone: video full screen */
+    @media (max-width: 700px) and (orientation: landscape) {
+      .video-player {
+        width: 100vw;
+        height: 80vw;
+        max-height: 100vw;
+      }
+      .video-modal-content {
+        width: 100vw;
+        min-height: 180px;
+        padding: 8px 0 8px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <!-- Thumbnail -->
+    <div class="thumb-container">
+      <img src="jfeSgz4L1.jpg" alt="Video Thumbnail" class="review-img">
+    </div>
+    <h1>AAAA</h1>
+    <div class="desc">Enjoy the latest HD quality videos with exciting shows every day. Watch now and feel the different sensation!</div>
+    <div class="stars">
+      <!-- 6.2 stars -->
+      <svg fill="#FFD700" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+      <svg fill="#FFD700" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+      <svg fill="#FFD700" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+      <svg fill="#FFD700" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+      <svg fill="#FFD700" viewBox="0 0 24 24"><path d="M12 17.27L14.58 21l-1.4-6.03L17 9.24l-5.19-.61L12 2"/></svg>
+      <span style="color:#FFD700;font-weight:600;font-size:.99em;vertical-align:middle;">8.7</span>
+    </div>
+    <button class="open-link" onclick="showVideoModal()">
+      Watch Video
+    </button>
+    <!-- Ads below watch video -->
+    <div class="ad-below-watch">
+      <!-- Ad script for below Watch Video button -->
+      <div id="adBelowWatch"></div>
+    </div>
+  </div>
+  <!-- Modal Video -->
+  <div id="videoModal" class="video-modal" style="display:none;">
+    <div class="video-modal-content">
+      <button class="close-btn" onclick="closeVideoModal()">Close ✕</button>
+      <!-- Ads below close button -->
+      <div class="ad-modal" id="adModal"></div>
+      <video class="video-player" controls autoplay>
+        <source src="https://cdn.videy.co/jfeSgz4L1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+  <script type="text/javascript">
+    // Inject ad below Watch Video button
+    function injectAdBelowWatch() {
+      var adDiv = document.getElementById('adBelowWatch');
+      if (adDiv && !adDiv.hasChildNodes()) {
+        var script1 = document.createElement('script');
+        script1.type = "text/javascript";
+        script1.innerHTML = "atOptions = { 'key' : '4a2fc598ebbbdbc95eb3bef73798c939', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };";
+        adDiv.appendChild(script1);
+
+        var script2 = document.createElement('script');
+        script2.type = "text/javascript";
+        script2.src = "//www.highperformanceformat.com/4a2fc598ebbbdbc95eb3bef73798c939/invoke.js";
+        adDiv.appendChild(script2);
+      }
+    }
+    injectAdBelowWatch();
+
+    function showVideoModal() {
+      document.getElementById('videoModal').style.display = 'flex';
+      // Inject ad below close button inside modal
+      var adDiv = document.getElementById('adModal');
+      if (adDiv && !adDiv.hasChildNodes()) {
+        var script1 = document.createElement('script');
+        script1.type = "text/javascript";
+        script1.innerHTML = "atOptions = { 'key' : '4a2fc598ebbbdbc95eb3bef73798c939', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };";
+        adDiv.appendChild(script1);
+
+        var script2 = document.createElement('script');
+        script2.type = "text/javascript";
+        script2.src = "//www.highperformanceformat.com/4a2fc598ebbbdbc95eb3bef73798c939/invoke.js";
+        adDiv.appendChild(script2);
+      }
+    }
+    function closeVideoModal() {
+      document.getElementById('videoModal').style.display = 'none';
+      var vid = document.querySelector('.video-player');
+      if (vid) { vid.pause(); }
+    }
+
+    (function () {
+      document.addEventListener('contextmenu', function (e) {
+        if (!e.target.closest('.allow-context, iframe')) {
+          e.preventDefault();
+        }
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === "F12") e.preventDefault();
+        if (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key.toUpperCase())) e.preventDefault();
+        if (e.ctrlKey && ["U","S"].includes(e.key.toUpperCase())) e.preventDefault();
+      });
+    })();
+    
+  </script>
+</body>
+</html>
+<!-- Histats.com  START  (aync)-->
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,4573229,4,0,0,0,00010000']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?4573229&101" alt="" border="0"></a></noscript>
+<!-- Histats.com  END  -->
